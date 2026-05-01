@@ -1,0 +1,40 @@
+name: Deploy to Production
+
+on:
+  workflow_run:
+    workflows: ["Build and Push"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host:     ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key:      ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/cipher
+            git pull origin main
+            docker compose build --parallel
+            docker compose up -d
+            echo "Deployment complete"
+
+      - name: Verify health
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host:     ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key:      ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sleep 15
+            for port in 8001 8002 8003 8004 8005; do
+              curl -sf http://localhost:$port/health && echo "Port $port: OK" || echo "Port $port: FAILED"
+            done
