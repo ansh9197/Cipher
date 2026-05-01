@@ -1,0 +1,69 @@
+name: Deploy to Kubernetes
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Docker Images"]
+    types: [completed]
+    branches: [main]
+
+env:
+  AWS_REGION: ap-south-1
+
+jobs:
+  deploy:
+    name: Deploy to k3s
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host:        ${{ secrets.EC2_HOST }}
+          username:    ubuntu
+          key:         ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/cipher
+
+            # Pull latest code
+            git pull origin main
+
+            # Rebuild and redeploy via docker compose
+            docker compose build --parallel
+            docker compose up -d
+
+            # Import new images into k3s
+            for svc in auth-service webhook-service analysis-service inference-service notification-service frontend; do
+              docker save cipher/${svc}:latest | sudo k3s ctr images import -
+            done
+
+            # Rolling restart in K8s
+            kubectl rollout restart deployment -n cipher \
+              auth-service webhook-service analysis-service \
+              inference-service notification-service frontend
+
+            kubectl rollout status deployment/auth-service -n cipher --timeout=120s
+
+            echo "Deployment complete"
+
+      - name: Verify deployment health
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host:     ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key:      ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sleep 15
+            for port in 8001 8002 8003 8004 8005; do
+              result=$(curl -s --max-time 5 http://localhost:$port/health)
+              echo "Port $port: $result"
+            done

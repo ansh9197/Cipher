@@ -1,0 +1,99 @@
+=== CIPHER Startup ===
+[1/6] Starting infrastructure...
+ Container cipher-postgres Running 
+ Container cipher-zookeeper Running 
+ Container cipher-redis Running 
+[2/6] Checking postgres...
+/var/run/postgresql:5432 - accepting connections
+  postgres ready
+[3/6] Starting Kafka...
+ Container cipher-zookeeper Running 
+ Container cipher-kafka Running 
+[4/6] Starting MLflow...
+ Container cipher-postgres Running 
+ Container cipher-mlflow Running 
+ Container cipher-postgres Waiting 
+ Container cipher-postgres Healthy 
+[5/6] Starting all services...
+ Container cipher-zookeeper Running 
+ Container cipher-postgres Running 
+ Container cipher-redis Running 
+ Container cipher-kafka Running 
+ Container cipher-mlflow Running 
+ Container cipher-auth Running 
+ Container cipher-notification Running 
+ Container cipher-inference Running 
+ Container cipher-webhook Running 
+ Container cipher-frontend Running 
+ Container cipher-analysis Running 
+ Container cipher-postgres Waiting 
+ Container cipher-redis Waiting 
+ Container cipher-postgres Waiting 
+ Container cipher-postgres Healthy 
+ Container cipher-redis Healthy 
+ Container cipher-postgres Healthy 
+[6/6] Health checks...
+  Port 8001: OK
+  Port 8002: OK
+  Port 8003: OK
+  Port 8004: OK
+  Port 8005: OK
+  Port 3000: OK
+  Port 5000: OK
+
+Done. Visit http://13.232.125.216:3000
+=== CIPHER Startup ===
+[1/6] Starting infrastructure...
+ Container cipher-redis Starting 
+ Container cipher-postgres Starting 
+ Container cipher-zookeeper Starting 
+ Container cipher-redis Started 
+ Container cipher-zookeeper Started 
+ Container cipher-postgres Started 
+[2/6] Checking postgres...
+/var/run/postgresql:5432 - accepting connections
+  postgres ready
+[3/6] Starting Kafka...
+ Container cipher-zookeeper Running 
+ Container cipher-kafka Starting 
+ Container cipher-kafka Started 
+[4/6] Starting MLflow...
+ Container cipher-postgres Running 
+ Container cipher-postgres Waiting 
+ Container cipher-postgres Healthy 
+ Container cipher-mlflow Starting 
+ Container cipher-mlflow Started 
+[5/6] Starting all services...
+ Container cipher-redis Running 
+ Container cipher-postgres Running 
+ Container cipher-mlflow Running 
+ Container cipher-zookeeper Running 
+ Container cipher-kafka Running 
+ Container cipher-postgres Waiting 
+ Container cipher-redis Waiting 
+ Container cipher-postgres Waiting 
+ Container cipher-webhook Starting 
+ Container cipher-notification Starting 
+ Container cipher-webhook Started 
+ Container cipher-notification Started 
+ Container cipher-redis Healthy 
+ Container cipher-postgres Healthy 
+ Container cipher-auth Starting 
+ Container cipher-postgres Healthy 
+ Container cipher-inference Starting 
+ Container cipher-auth Started 
+ Container cipher-frontend Starting 
+ Container cipher-inference Started 
+ Container cipher-analysis Starting 
+ Container cipher-frontend Started 
+ Container cipher-analysis Started 
+[6/6] Health checks...
+  Port 8001: OK
+  Port 8002: OK
+  Port 8003: OK
+  Port 8004: OK
+  Port 8005: OK
+  Port 3000: OK
+  Port 5000: OK
+
+Done. Visit http://13.232.125.216:3000

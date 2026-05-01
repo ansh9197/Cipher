@@ -1,29 +1,21 @@
 # Python
 __pycache__/
-*.py[cod]
-*.pyo
+*.pyc
 .venv/
-venv/
-env/
 *.egg-info/
-dist/
-build/
-.pytest_cache/
-.mypy_cache/
 
 # Node
 node_modules/
 .next/
-out/
-.npm
-*.log
+frontend/.next/
 
-# Env files
+# Env files - NEVER push these
 .env
 .env.local
 .env.production
 *.pem
 *.key
+cipher-dev-key.pem
 
 # Terraform
 .terraform/
@@ -38,12 +30,6 @@ out/
 # IDE
 .idea/
 .vscode/
-*.swp
-*.swo
-
-# AWS
-.aws/
 
 # Misc
 .DS_Store
-coverage/

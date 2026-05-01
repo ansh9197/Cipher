@@ -1,5 +1,6 @@
-services:
+version: "3.9"
 
+services:
   postgres:
     image: postgres:15-alpine
     container_name: cipher-postgres
@@ -61,8 +62,7 @@ services:
       timeout: 10s
       retries: 5
     restart: unless-stopped
-
-  mlflow:
+mlflow:
     build:
       context: ./services/mlflow-server
       dockerfile: Dockerfile
@@ -74,6 +74,21 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
+    environment:
+      MLFLOW_BACKEND_STORE_URI: postgresql://cipher:cipher_pass@postgres:5432/cipher_db
+      MLFLOW_DEFAULT_ARTIFACT_ROOT: /mlflow/artifacts
+    volumes:
+      - mlflow_artifacts:/mlflow/artifacts
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      mlflow server
+      --backend-store-uri postgresql://cipher:cipher_pass@postgres:5432/cipher_db
+      --default-artifact-root /mlflow/artifacts
+      --host 0.0.0.0
+      --port 5000
     restart: unless-stopped
 
   auth-service:

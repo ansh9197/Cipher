@@ -25,16 +25,16 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://cipher.dev"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(health.router, tags=["health"])
-app.include_router(auth.router,    prefix="/api/v1/auth",    tags=["auth"])
-app.include_router(users.router,   prefix="/api/v1/users",   tags=["users"])
-app.include_router(billing.router, prefix="/api/v1/billing", tags=["billing"])
+app.include_router(health.router,   tags=["health"])
+app.include_router(auth.router,     prefix="/api/v1/auth",    tags=["auth"])
+app.include_router(users.router,    prefix="/api/v1/users",   tags=["users"])
+app.include_router(billing.router,  prefix="/api/v1/billing", tags=["billing"])
 
 @app.get("/")
 async def root():
