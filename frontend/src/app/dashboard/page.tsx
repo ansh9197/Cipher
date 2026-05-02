@@ -7,6 +7,7 @@ export default function DashboardPage() {
   const router  = useRouter()
   const [user,    setUser]    = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showGithubModal, setShowGithubModal] = useState(false)
 
   useEffect(() => {
     if (!isLoggedIn()) { router.push('/login'); return }
@@ -67,14 +68,46 @@ export default function DashboardPage() {
             <div>
               <div className="text-white font-medium text-sm">Connect your GitHub organisation</div>
               <div className="text-gray-400 text-xs mt-1">
-                Install the CIPHER GitHub App to start analyzing failures automatically
+                Install the CIPHER GitHub App to start analyzing pipeline failures automatically
               </div>
             </div>
-            <a href="https://github.com/apps/cipher-ai/installations/new"
-               target="_blank" rel="noopener noreferrer"
-               className="ml-4 shrink-0 text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-lg transition-colors">
+            <button
+              onClick={() => setShowGithubModal(true)}
+              className="ml-4 shrink-0 text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-lg transition-colors">
               Connect GitHub
-            </a>
+            </button>
+          </div>
+        )}
+
+        {showGithubModal && (
+          <div className="fixed inset-0 flex items-center justify-center z-50"
+               style={{ background: 'rgba(0,0,0,0.7)' }}>
+            <div className="card p-8 max-w-md w-full mx-4">
+              <h3 className="text-white font-semibold text-lg mb-3">GitHub App Setup</h3>
+              <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+                To connect GitHub, the CIPHER GitHub App needs to be installed on your organisation.
+                This is a one-time setup by the admin.
+              </p>
+              <div className="text-xs font-mono p-3 rounded-lg mb-4"
+                   style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#a5b4fc' }}>
+                Webhook URL: http://13.232.125.216:8002/api/v1/webhooks/github
+              </div>
+              <p className="text-gray-500 text-xs mb-6">
+                Contact your admin to complete the GitHub App installation, or create your own at
+                github.com/settings/apps/new
+              </p>
+              <div className="flex gap-3">
+                <a href="https://github.com/settings/apps/new"
+                   target="_blank" rel="noopener noreferrer"
+                   className="flex-1 text-center text-sm bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg transition-colors">
+                  Create GitHub App
+                </a>
+                <button onClick={() => setShowGithubModal(false)}
+                  className="flex-1 text-sm border border-white/10 text-gray-300 py-2 rounded-lg hover:border-white/20 transition-colors">
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
