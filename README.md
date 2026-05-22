@@ -8,14 +8,6 @@
 
 
 > An AI-powered DevOps SaaS that automatically analyzes CI/CD pipeline failures and posts plain-English root cause + fix suggestions as GitHub PR comments — within 30 seconds.
-
-![Architecture](https://img.shields.io/badge/Architecture-Microservices-6366f1)
-![AI](https://img.shields.io/badge/AI-Self--Improving-10b981)
-![K8s](https://img.shields.io/badge/Kubernetes-k3s-326ce5)
-![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC)
-![Python](https://img.shields.io/badge/Python-3.11-3776AB)
-![Next.js](https://img.shields.io/badge/Next.js-14-black)
-
 ---
 
 ## The Problem
@@ -24,9 +16,13 @@ Every developer wastes 15–45 minutes per day reading CI/CD logs, Googling erro
 
 ## How it Works
 Pipeline fails → GitHub webhook → CIPHER analyzes log → PR comment posted in 30s
+
 ↓
+
 Engineer rates 👍/👎
+
 ↓
+
 Weekly model retraining
 ↓
 Model gets smarter automatically
