@@ -1,4 +1,11 @@
 # CIPHER — CI/CD Intelligent Pipeline Health Engine with Autonomous Retraining
+<img width="1314" height="585" alt="image" src="https://github.com/user-attachments/assets/6d6f2113-8b1d-4912-8d27-a7bfaed428d2" />
+
+
+
+
+
+
 
 > An AI-powered DevOps SaaS that automatically analyzes CI/CD pipeline failures and posts plain-English root cause + fix suggestions as GitHub PR comments — within 30 seconds.
 
