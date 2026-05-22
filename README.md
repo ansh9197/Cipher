@@ -30,46 +30,26 @@ Model gets smarter automatically
 ---
 
 ## Architecture
-
-> View the interactive architecture: [cipher-architecture.html](./docs/cipher-architecture.html)
-┌─────────────────────────────────────────────────────────┐
-│                    AWS Infrastructure                    │
-│  EC2 (k3s) · RDS PostgreSQL · ElastiCache · S3 · ECR   │
-└─────────────────────────────────────────────────────────┘
-│
-┌─────────────────────────────────────────────────────────┐
-│                   Kubernetes (k3s)                      │
-│                                                         │
-│  GitHub ──► Webhook ──► Kafka ──► Analysis              │
-│                                      │                  │
-│                              Inference (AI) ◄── MLflow  │
-│                                      │                  │
-│                           Notification ──► PR Comment   │
-│                                      │                  │
-│                            Feedback ──► Retraining      │
-└─────────────────────────────────────────────────────────┘
-│
-┌─────────────────────────────────────────────────────────┐
-│              Observability (Prometheus + Grafana)        │
-└─────────────────────────────────────────────────────────┘
+<img width="957" height="763" alt="image" src="https://github.com/user-attachments/assets/1eb42a02-1428-4200-809a-60cf37f12336" />
 ---
 
-## Tech Stack
+## 🚀 CIPHER Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | Python FastAPI (5 microservices) |
-| Frontend | Next.js 14, React, Tailwind CSS |
-| AI/ML | TF-IDF + LogReg → DistilBERT, MLflow registry |
-| Messaging | Apache Kafka |
-| Database | PostgreSQL (SQLAlchemy async) |
-| Cache | Redis |
-| Container | Docker, Docker Compose |
-| Orchestration | Kubernetes (k3s) with HPA autoscaling |
-| IaC | Terraform (VPC, RDS, ElastiCache, S3, ECR) |
-| CI/CD | GitHub Actions (build + test + deploy) |
-| Monitoring | Prometheus + Grafana |
-| Billing | Stripe (Free / $29 / $99 plans) |
+| Category                     | Technologies Used |
+|-----------------------------|-------------------|
+| **Cloud Platform**          | AWS (EKS, EC2, SageMaker) |
+| **Containerization**        | Docker |
+| **Container Orchestration** | Kubernetes |
+| **Infrastructure as Code**  | Terraform |
+| **CI/CD Automation**        | Jenkins, GitHub Actions |
+| **GitOps Deployment**       | Argo CD |
+| **Programming Language**    | Python |
+| **Machine Learning / AIOps**| AWS SageMaker, MLflow |
+| **Monitoring & Observability** | Prometheus, Grafana |
+| **Version Control**         | Git, GitHub |
+| **Operating System**        | Linux (Ubuntu) |
+| **Architecture Style**      | Cloud-Native Microservices |
+| **Core Concepts**           | CI/CD, AIOps, Infrastructure Automation, Self-Healing Pipelines, MLOps |
 
 ---
 
@@ -170,15 +150,88 @@ Response:
 ---
 
 ## Project Structure
-## AI Pipeline — 3 Stages of Intelligence
+## 📂 Project Structure
 
-| Stage | When | Method | Accuracy |
-|-------|------|--------|----------|
-| 1 — Rule-based | Day 0 | 20 regex patterns, 6 categories | ~68% |
-| 2 — LLM | Week 2+ | AWS Bedrock structured prompt | ~88% |
-| 3 — Fine-tuned | Month 2+ | DistilBERT trained on real data | ~93% |
+```bash
+CIPHER/
+│
+├── .github/                          # GitHub Actions workflows
+│   └── workflows/
+│       ├── build-push.yml
+│       └── deploy.yml
+│
+├── docs/                             # Documentation & architecture
+│   ├── cipher-architecture.html
+│   └── README.md
+│
+├── frontend/                         # Next.js frontend dashboard
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── dashboard/
+│   │   │   ├── login/
+│   │   │   ├── pricing/
+│   │   │   └── register/
+│   │   │
+│   │   └── lib/
+│   │       ├── api.ts
+│   │       └── auth.ts
+│   │
+│   ├── Dockerfile
+│   ├── package.json
+│   └── tailwind.config.js
+│
+├── k8s/                              # Kubernetes manifests
+│   ├── configmaps/
+│   ├── cronjobs/
+│   ├── deployments/
+│   ├── hpa/
+│   ├── ingress/
+│   ├── namespaces/
+│   ├── secrets/
+│   └── services/
+│
+├── monitoring/                       # Monitoring & observability stack
+│   ├── grafana/
+│   │   ├── dashboards/
+│   │   └── datasources/
+│   │
+│   ├── docker-compose.monitoring.yml
+│   └── prometheus.yml
+│
+├── scripts/                          # Automation & utility scripts
+│   ├── retrain.sh
+│   ├── start-all.sh
+│   └── status.sh
+│
+├── services/                         # Microservices architecture
+│   ├── analysis-service/             # CI/CD log analysis service
+│   ├── auth-service/                 # Authentication & user management
+│   ├── inference-service/            # ML inference engine
+│   ├── mlflow-server/                # MLflow tracking server
+│   ├── notification-service/         # GitHub feedback & notifications
+│   ├── retraining-job/               # Model retraining pipeline
+│   └── webhook-service/              # GitHub webhook listener
+│
+├── terraform/                        # Infrastructure as Code
+│   └── production/
+│       ├── ec2.tf
+│       ├── ecr.tf
+│       ├── elasticache.tf
+│       ├── rds.tf
+│       ├── s3.tf
+│       ├── security_groups.tf
+│       ├── vpc.tf
+│       └── main.tf
+│
+├── .env.example                      # Environment variables template
+├── .gitignore
+├── docker-compose.yml                # Multi-container local setup
+├── Makefile                          # Automation commands
+└── README.md
+```
 
-The model **self-improves every Sunday** — engineer feedback becomes labeled training data, the model retrains on SageMaker, and only promotes to Production if F1 score improves by >2%.
+
+
 
 ---
 
