@@ -5,6 +5,7 @@ from app.api.routes import health, feedback
 from app.core.kafka import get_consumer
 from app.core.github_commenter import post_pr_comment
 import threading
+from app.core.db_save import save_analysis_to_db
 import asyncio
 import json
 import logging
