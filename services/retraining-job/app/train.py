@@ -185,7 +185,6 @@ def train_model(df: pd.DataFrame) -> tuple:
         ("clf", LogisticRegression(
             C=1.0,
             max_iter=1000,
-            ,
             solver="lbfgs",
             random_state=42,
         )),

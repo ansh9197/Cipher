@@ -40,3 +40,29 @@ async def update_profile(
             setattr(current_user, key, value)
     await db.flush()
     return {"status": "updated"}
+
+
+from sqlalchemy import text
+
+@router.get("/analyses")
+async def get_analyses(
+    current_user = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get analyses for current user's tenant."""
+    try:
+        result = await db.execute(
+            text("""
+                SELECT id, run_id, repo, branch, workflow_name, conclusion,
+                       category, confidence, root_cause, suggestion, method, created_at
+                FROM analyses
+                WHERE tenant_id = :tenant_id
+                ORDER BY created_at DESC
+                LIMIT 50
+            """),
+            {"tenant_id": str(current_user.id)}
+        )
+        rows = result.fetchall()
+        return [dict(r._mapping) for r in rows]
+    except Exception as e:
+        return []
